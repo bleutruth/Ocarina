@@ -1,0 +1,13 @@
+package net.ao.ocarina;
+
+public class TwitterData{
+
+	public
+
+	static final String CONSUMER_KEY = "";
+	static final String CONSUMER_SECRET = "";
+
+	static final String URL_REQUEST = "";
+	static final String URL_ACCESS = "";
+	static final String URL_AUTHORIZATION = "";
+}
