@@ -1,9 +1,13 @@
 package net.ao.ocarina;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Xml;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -14,6 +18,10 @@ import oauth.signpost.exception.OAuthExpectationFailedException;
 import oauth.signpost.exception.OAuthMessageSignerException;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
 
 public class OcarinaActivity extends Activity {
 
@@ -125,6 +133,33 @@ public class OcarinaActivity extends Activity {
 		}
 		catch(OAuthCommunicationException e){
 			System.out.println("catch OAuthCommunicationException");
+		}
+
+		HttpResponse execute = null;
+		try{
+			execute = http.execute(http_get);
+		}
+		catch(ClientProtocolException e){
+			System.out.println("catch ClientProtocolException");
+		}
+		catch(IOException e){
+			System.out.println("catch IOException");
+		}
+
+		InputStream in = null;
+		try{
+			in = execute.getEntity().getContent();
+		}
+		catch(IOException e){
+			System.out.println("catch IOException");
+		}
+
+		XmlPullParser parser = Xml.newPullParser();
+		try{
+			parser.setInput(new InputStreamReader(in));
+		}
+		catch(XmlPullParserException e){
+			System.out.println("catch XmlPullParserException");
 		}
 	}
 
