@@ -161,6 +161,29 @@ public class OcarinaActivity extends Activity {
 		catch(XmlPullParserException e){
 			System.out.println("catch XmlPullParserException");
 		}
+
+		while(true){
+			int type = 0;
+			try{
+				type = parser.next();
+			}
+			catch(XmlPullParserException e){
+				System.out.println("catch XmlPullParserException");
+			}
+			catch(IOException e){
+				System.out.println("catch IOException");
+			}
+			if(type == XmlPullParser.END_DOCUMENT){
+				break;
+			}
+		}
+
+		try{
+			in.close();
+		}
+		catch(IOException e){
+			System.out.println("catch IOException");
+		}
 	}
 
 	static final String CALLBACKURL = "myapp://ocarinamainactivity";
