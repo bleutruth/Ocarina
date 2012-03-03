@@ -1,5 +1,6 @@
 package net.ao.ocarina;
 
+import java.util.ArrayList;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,7 +11,9 @@ import oauth.signpost.basic.DefaultOAuthProvider;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 import oauth.signpost.exception.OAuthCommunicationException;
 import oauth.signpost.exception.OAuthExpectationFailedException;
-import net.ao.ocarina.TwitterData;
+import oauth.signpost.exception.OAuthMessageSignerException;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.client.methods.HttpGet;
 
 public class OcarinaActivity extends Activity {
 
@@ -34,6 +37,7 @@ public class OcarinaActivity extends Activity {
 		//	îFèÿçœÇ›ÅH
 		if(token != "" && tokenSecret != ""){
 			consumer.setTokenWithSecret(token, tokenSecret);
+			updateTimeline();
 			return;
 		}
 
@@ -102,6 +106,27 @@ public class OcarinaActivity extends Activity {
 	}
 
 	private
+
+	void updateTimeline()
+	{
+		final ArrayList<Tweet> tlarray = new ArrayList<Tweet>();
+
+		DefaultHttpClient http = new DefaultHttpClient();
+		HttpGet http_get = new HttpGet("http://twitter.com/statuses/friends_timeline.xml");
+
+		try{
+			consumer.sign(http_get);
+		}
+		catch(OAuthMessageSignerException e){
+			System.out.println("catch OAuthMessageSignerException");
+		}
+		catch(OAuthExpectationFailedException e){
+			System.out.println("catch OAuthExpectationFailedException");
+		}
+		catch(OAuthCommunicationException e){
+			System.out.println("catch OAuthCommunicationException");
+		}
+	}
 
 	static final String CALLBACKURL = "myapp://ocarinamainactivity";
 

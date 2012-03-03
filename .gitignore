@@ -3,3 +3,5 @@
 /bin/Ocarina.apk
 /bin/classes.dex
 /bin/resources.ap_
+
+/bin/classes/net/ao/ocarina/TwitterData.java.tmp
