@@ -62,13 +62,13 @@ public class OcarinaActivity extends Activity {
 			);
 		}
 		catch(OAuthCommunicationException e){
-			out.println("catch OAuthCommunicationException");
+			out.println("catch OAuthCommunicationException"); finish();
 		}
 		catch(OAuthExpectationFailedException e){
-			out.println("catch OAuthExpectationFailedException");
+			out.println("catch OAuthExpectationFailedException"); finish();
 		}
 		catch(Exception e){
-			out.println("catch Exception");
+			out.println("catch Exception"); finish();
 		}
 	}
 
@@ -92,10 +92,10 @@ public class OcarinaActivity extends Activity {
 					provider.retrieveAccessToken(consumer, verifier);
 				}
 				catch(OAuthExpectationFailedException e){
-					out.println("catch OAuthExpectationFailedException");
+					out.println("catch OAuthExpectationFailedException"); finish();
 				}
 				catch(Exception e){
-					out.println("catch Exception");
+					out.println("catch Exception"); finish();
 				}
 
 				SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
@@ -128,13 +128,13 @@ public class OcarinaActivity extends Activity {
 			consumer.sign(http_get);
 		}
 		catch(OAuthMessageSignerException e){
-			out.println("catch OAuthMessageSignerException");
+			out.println("catch OAuthMessageSignerException"); finish();
 		}
 		catch(OAuthExpectationFailedException e){
-			out.println("catch OAuthExpectationFailedException");
+			out.println("catch OAuthExpectationFailedException"); finish();
 		}
 		catch(OAuthCommunicationException e){
-			out.println("catch OAuthCommunicationException");
+			out.println("catch OAuthCommunicationException"); finish();
 		}
 
 		HttpResponse execute = null;
@@ -142,10 +142,10 @@ public class OcarinaActivity extends Activity {
 			execute = http.execute(http_get);
 		}
 		catch(ClientProtocolException e){
-			out.println("catch ClientProtocolException");
+			out.println("catch ClientProtocolException"); finish();
 		}
 		catch(IOException e){
-			out.println("catch IOException");
+			out.println("catch IOException"); finish();
 		}
 
 		InputStream in = null;
@@ -153,7 +153,7 @@ public class OcarinaActivity extends Activity {
 			in = execute.getEntity().getContent();
 		}
 		catch(IOException e){
-			out.println("catch IOException");
+			out.println("catch IOException"); finish();
 		}
 
 		XmlPullParser parser = Xml.newPullParser();
@@ -161,7 +161,7 @@ public class OcarinaActivity extends Activity {
 			parser.setInput(new InputStreamReader(in));
 		}
 		catch(XmlPullParserException e){
-			out.println("catch XmlPullParserException");
+			out.println("catch XmlPullParserException"); finish();
 		}
 
 		int type = 0;
@@ -169,7 +169,7 @@ public class OcarinaActivity extends Activity {
 			type = parser.getEventType();
 		}
 		catch(XmlPullParserException e){
-			out.println("catch XmlPullParserException");
+			out.println("catch XmlPullParserException"); finish();
 		}
 
 		while(type != XmlPullParser.END_DOCUMENT){
@@ -191,10 +191,10 @@ public class OcarinaActivity extends Activity {
 				type = parser.next();
 			}
 			catch(XmlPullParserException e){
-				out.println("catch XmlPullParserException");
+				out.println("catch XmlPullParserException"); finish();
 			}
 			catch(IOException e){
-				out.println("catch IOException");
+				out.println("catch IOException"); finish();
 			}
 		}
 		out.println("End document");
@@ -203,7 +203,7 @@ public class OcarinaActivity extends Activity {
 			in.close();
 		}
 		catch(IOException e){
-			out.println("catch IOException");
+			out.println("catch IOException"); finish();
 		}
 	}
 
