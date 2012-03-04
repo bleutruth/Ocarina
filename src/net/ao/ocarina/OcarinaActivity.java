@@ -164,8 +164,29 @@ public class OcarinaActivity extends Activity {
 			out.println("catch XmlPullParserException");
 		}
 
-		while(true){
-			int type = 0;
+		int type = 0;
+		try{
+			type = parser.getEventType();
+		}
+		catch(XmlPullParserException e){
+			out.println("catch XmlPullParserException");
+		}
+
+		while(type != XmlPullParser.END_DOCUMENT){
+
+			if(type == XmlPullParser.START_DOCUMENT){
+				out.println("Start document");
+			}
+			else if(type == XmlPullParser.START_TAG){
+				out.println("Start tag: " + parser.getName());
+			}
+			else if(type == XmlPullParser.END_TAG){
+				out.println("End tag: " + parser.getName());
+			}
+			else if(type == XmlPullParser.TEXT){
+				out.println("Text: " + parser.getText());
+			}
+
 			try{
 				type = parser.next();
 			}
@@ -175,10 +196,8 @@ public class OcarinaActivity extends Activity {
 			catch(IOException e){
 				out.println("catch IOException");
 			}
-			if(type == XmlPullParser.END_DOCUMENT){
-				break;
-			}
 		}
+		out.println("End document");
 
 		try{
 			in.close();
