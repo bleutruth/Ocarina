@@ -23,6 +23,8 @@ import org.apache.http.client.ClientProtocolException;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import static java.lang.System.out;
+
 public class OcarinaActivity extends Activity {
 
 	public
@@ -38,9 +40,9 @@ public class OcarinaActivity extends Activity {
 
 		SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
 		final String token = pref.getString("token", "");
-		System.out.println("token: " + token);
+		out.println("token: " + token);
 		final String tokenSecret = pref.getString("tokenSecret", "");
-		System.out.println("tokenSecret: " + tokenSecret);
+		out.println("tokenSecret: " + tokenSecret);
 
 		//	îFèÿçœÇ›ÅH
 		if(token != "" && tokenSecret != ""){
@@ -60,13 +62,13 @@ public class OcarinaActivity extends Activity {
 			);
 		}
 		catch(OAuthCommunicationException e){
-			System.out.println("catch OAuthCommunicationException");
+			out.println("catch OAuthCommunicationException");
 		}
 		catch(OAuthExpectationFailedException e){
-			System.out.println("catch OAuthExpectationFailedException");
+			out.println("catch OAuthExpectationFailedException");
 		}
 		catch(Exception e){
-			System.out.println("catch Exception");
+			out.println("catch Exception");
 		}
 	}
 
@@ -90,21 +92,21 @@ public class OcarinaActivity extends Activity {
 					provider.retrieveAccessToken(consumer, verifier);
 				}
 				catch(OAuthExpectationFailedException e){
-					System.out.println("catch OAuthExpectationFailedException");
+					out.println("catch OAuthExpectationFailedException");
 				}
 				catch(Exception e){
-					System.out.println("catch Exception");
+					out.println("catch Exception");
 				}
 
 				SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
 				SharedPreferences.Editor editor = pref.edit();
 
 				final String token = consumer.getToken();
-				System.out.println("token: " + token);
+				out.println("token: " + token);
 				editor.putString("token", token);
 
 				final String tokenSecret = consumer.getTokenSecret();
-				System.out.println("tokenSecret: " + tokenSecret);
+				out.println("tokenSecret: " + tokenSecret);
 				editor.putString("tokenSecret", tokenSecret);
 
 				editor.commit();
@@ -126,13 +128,13 @@ public class OcarinaActivity extends Activity {
 			consumer.sign(http_get);
 		}
 		catch(OAuthMessageSignerException e){
-			System.out.println("catch OAuthMessageSignerException");
+			out.println("catch OAuthMessageSignerException");
 		}
 		catch(OAuthExpectationFailedException e){
-			System.out.println("catch OAuthExpectationFailedException");
+			out.println("catch OAuthExpectationFailedException");
 		}
 		catch(OAuthCommunicationException e){
-			System.out.println("catch OAuthCommunicationException");
+			out.println("catch OAuthCommunicationException");
 		}
 
 		HttpResponse execute = null;
@@ -140,10 +142,10 @@ public class OcarinaActivity extends Activity {
 			execute = http.execute(http_get);
 		}
 		catch(ClientProtocolException e){
-			System.out.println("catch ClientProtocolException");
+			out.println("catch ClientProtocolException");
 		}
 		catch(IOException e){
-			System.out.println("catch IOException");
+			out.println("catch IOException");
 		}
 
 		InputStream in = null;
@@ -151,7 +153,7 @@ public class OcarinaActivity extends Activity {
 			in = execute.getEntity().getContent();
 		}
 		catch(IOException e){
-			System.out.println("catch IOException");
+			out.println("catch IOException");
 		}
 
 		XmlPullParser parser = Xml.newPullParser();
@@ -159,7 +161,7 @@ public class OcarinaActivity extends Activity {
 			parser.setInput(new InputStreamReader(in));
 		}
 		catch(XmlPullParserException e){
-			System.out.println("catch XmlPullParserException");
+			out.println("catch XmlPullParserException");
 		}
 
 		while(true){
@@ -168,10 +170,10 @@ public class OcarinaActivity extends Activity {
 				type = parser.next();
 			}
 			catch(XmlPullParserException e){
-				System.out.println("catch XmlPullParserException");
+				out.println("catch XmlPullParserException");
 			}
 			catch(IOException e){
-				System.out.println("catch IOException");
+				out.println("catch IOException");
 			}
 			if(type == XmlPullParser.END_DOCUMENT){
 				break;
@@ -182,7 +184,7 @@ public class OcarinaActivity extends Activity {
 			in.close();
 		}
 		catch(IOException e){
-			System.out.println("catch IOException");
+			out.println("catch IOException");
 		}
 	}
 
