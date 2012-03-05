@@ -51,25 +51,28 @@ public class OcarinaActivity extends Activity {
 			return;
 		}
 
-		try{
-//			final String url = provider.retrieveRequestToken(consumer, OAuth.OUT_OF_BAND);
-			final String url = provider.retrieveRequestToken(consumer, CALLBACKURL);
+		Thread thread = new Thread(){ public void run(){
+			try{
+//				final String url = provider.retrieveRequestToken(consumer, OAuth.OUT_OF_BAND);
+				final String url = provider.retrieveRequestToken(consumer, CALLBACKURL);
 
-			handler.post(
-				new Runnable(){ public void run(){
-					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
-				}}
-			);
-		}
-		catch(OAuthCommunicationException e){
-			out.println("catch OAuthCommunicationException"); finish();
-		}
-		catch(OAuthExpectationFailedException e){
-			out.println("catch OAuthExpectationFailedException"); finish();
-		}
-		catch(Exception e){
-			out.println("catch Exception"); finish();
-		}
+				handler.post(
+					new Runnable(){ public void run(){
+						startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+					}}
+				);
+			}
+			catch(OAuthCommunicationException e){
+				out.println("catch OAuthCommunicationException"); finish();
+			}
+			catch(OAuthExpectationFailedException e){
+				out.println("catch OAuthExpectationFailedException"); finish();
+			}
+			catch(Exception e){
+				out.println("catch Exception"); finish();
+			}
+		}};
+		thread.start();
 	}
 
 	protected
@@ -87,8 +90,9 @@ public class OcarinaActivity extends Activity {
 
 		Thread thread = new Thread(
 			new Runnable(){ public void run(){
+				String verifier = uri.getQueryParameter(oauth.signpost.OAuth.OAUTH_VERIFIER);
+
 				try{
-					final String verifier = uri.getQueryParameter(oauth.signpost.OAuth.OAUTH_VERIFIER);
 					provider.retrieveAccessToken(consumer, verifier);
 				}
 				catch(OAuthExpectationFailedException e){
